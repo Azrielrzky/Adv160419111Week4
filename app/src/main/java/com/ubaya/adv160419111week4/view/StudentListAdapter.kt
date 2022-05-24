@@ -12,7 +12,7 @@ import com.ubaya.adv160419111week4.model.Student
 import kotlinx.android.synthetic.main.student_list_item.view.*
 
 class StudentListAdapter(val studentList: ArrayList<Student>) : RecyclerView.Adapter
-<StudentListAdapter.StudentViewHolder>() {
+<StudentListAdapter.StudentViewHolder>(), ButtonDetailClickListener {
     class StudentViewHolder(var view: StudentListItemBinding): RecyclerView.ViewHolder(view.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudentViewHolder {
@@ -24,6 +24,7 @@ class StudentListAdapter(val studentList: ArrayList<Student>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: StudentViewHolder, position: Int) {
         holder.view.student = studentList[position]
+        holder.view.listener = this
 
         /*val student = studentList[position]
         with(holder.view){
@@ -42,6 +43,11 @@ class StudentListAdapter(val studentList: ArrayList<Student>) : RecyclerView.Ada
         studentList.clear()
         studentList.addAll(newStudentList)
         notifyDataSetChanged()
+    }
+
+    override fun onDetailClick(v: View) {
+        val act = StudentListFragmentDirections.actionStudentDetail(v.tag.toString())
+        Navigation.findNavController(v).navigate(act)
     }
 
 }
